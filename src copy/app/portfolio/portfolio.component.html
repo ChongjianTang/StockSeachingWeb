@@ -1,0 +1,55 @@
+<div *ngIf="buyNotice" class="alert alert-success alert-dismissible text-center" role="alert">
+    {{ticker}} bought successfully.
+    <button type="button" class="btn-close" aria-label="Close" (click)="hideBuyNotice()"></button>
+</div>
+<div *ngIf="sellNotice" class="alert alert-danger alert-dismissible text-center" role="alert">
+    {{ticker}} sold successfully.
+    <button type="button" class="btn-close" aria-label="Close" (click)="hideSellNotice()"></button>
+</div>
+
+<h1>My Portfolio</h1>
+
+<h3>Money in Wallet ${{myMoney.toFixed(2)}}</h3>
+
+<div *ngIf="!showPortfolio" class="alert alert-warning" role="alert">
+    Currently you don't have any stock.
+</div>
+
+
+<div *ngIf="checkData()">
+    <div *ngFor="let stock of myStockInfo let i = index">
+        <span>
+            <strong>{{stock.ticker}}</strong>
+            <span>{{stock.name}}</span>
+        </span>
+        <div>
+            Quantity: {{stock.quantity.toFixed(2)}}
+            <br/>
+            Avg. Cost/Share: {{(stock.totalCost / stock.quantity).toFixed(2)}}
+            <br/>
+            Total Cost: {{stock.totalCost.toFixed(2)}}
+        </div>
+        <div>
+            Change:
+            <span [class.up-color]="stock.currentPrice-stock.avg>=0.01"
+                  [class.down-color]="stock.currentPrice-stock.avg<=-0.01">
+            <i *ngIf="stock.currentPrice-stock.avg>=0.01" class="bi bi-caret-up-fill"></i>
+            <i *ngIf="stock.currentPrice-stock.avg<=-0.01" class="bi bi-caret-down-fill"></i>
+            {{(stock.currentPrice - stock.avg).toFixed(2)}}
+            </span>
+            <br/>
+            Current Price: <span [class.up-color]="stock.currentPrice-stock.avg>=0.01"
+                                 [class.down-color]="stock.currentPrice-stock.avg<=-0.01">{{stock.currentPrice.toFixed(2)}}</span>
+            <br/>
+            Market Value: <span [class.up-color]="stock.currentPrice-stock.avg>=0.01"
+                                [class.down-color]="stock.currentPrice-stock.avg<=-0.01">{{stock.currentPrice * stock.quantity.toFixed(2)}}</span>
+        </div>
+        <app-buy-dialog [result]="this" [ticker]="stock.ticker" [currentPrice]="stock.currentPrice"
+                        [name]="stock.name" [isBuyDialog]="true">
+        </app-buy-dialog>
+        <app-buy-dialog [result]="this" [ticker]="stock.ticker"
+                        [currentPrice]="stock.currentPrice" [name]="stock.name"
+                        [isBuyDialog]="false">
+        </app-buy-dialog>
+    </div>
+</div>

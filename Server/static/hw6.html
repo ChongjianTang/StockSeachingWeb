@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HW6</title>
+    <meta name="author" content="Xihan Fu">
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+    <link rel="stylesheet" href="/hw6.css">
+</head>
+
+
+<body style="background-repeat: no-repeat; background-image: url('/img/back.svg')">
+<div class="header">Stock Search</div>
+<form name="search_form" action="/search">
+    <div class="search">
+        <input type="submit" value="" class="button" style="background-image: url('/img/search-solid.svg')">
+        <input type="text" id="input_text" name="company"
+               placeholder="Enter Stock Ticker Symbol" required>
+        <input type="reset" value="" class="button" style="background-image: url('/img/times-solid.svg')">
+    </div>
+</form>
+
+<div id="no_data">
+    <p>Error : No record has been found, please enter a valid symbol</p>
+</div>
+
+<div class="tab" id="tab">
+    <div class="tab_list">
+        <ul>
+            <li class="current">Company</li>
+            <li class="other">Stock Summary</li>
+            <li class="other">Charts</li>
+            <li class="other">Latest News</li>
+        </ul>
+    </div>
+    <div>
+        <div class="item" style="display: block">
+            <div id="company_content">
+                <div style="text-align: center">
+                    <img id="company_logo" src="" alt="company logo">
+                </div>
+
+                <table style="border-collapse: collapse; margin: 0 auto">
+                    <tbody>
+                    <tr class="table_row">
+                        <td class="company_table_left">Company Name</td>
+                        <td class="company_table_right" id="company_name"></td>
+                    </tr>
+                    <tr class="table_row">
+                        <td class="company_table_left">Stock Ticker Symbol</td>
+                        <td class="company_table_right" id="company_ticker_1"></td>
+                    </tr>
+                    <tr class="table_row">
+                        <td class="company_table_left">Stock Exchange Code</td>
+                        <td class="company_table_right" id="company_exchange"></td>
+                    </tr>
+                    <tr class="table_row">
+                        <td class="company_table_left">Company IPO Date</td>
+                        <td class="company_table_right" id="company_ipo"></td>
+                    </tr>
+                    <tr class="table_row">
+                        <td class="company_table_left">Category</td>
+                        <td class="company_table_right" id="company_finnhubIndustry"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+        </div>
+        <div class="item">
+            <table style="border-collapse: collapse; margin: 0 auto">
+                <tbody>
+                <tr class="table_row">
+                    <td class="company_table_left">Stock Ticker Symbol</td>
+                    <td class="company_table_right" id="company_ticker_2">name</td>
+                </tr>
+                <tr class="table_row">
+                    <td class="company_table_left">Trading Day</td>
+                    <td class="company_table_right" id="summary_t">t</td>
+                </tr>
+                <tr class="table_row">
+                    <td class="company_table_left">Previous Closing Price</td>
+                    <td class="company_table_right" id="summary_pc">pc</td>
+                </tr>
+                <tr class="table_row">
+                    <td class="company_table_left">Opening Price</td>
+                    <td class="company_table_right" id="summary_o">o</td>
+                </tr>
+                <tr class="table_row">
+                    <td class="company_table_left">High Price</td>
+                    <td class="company_table_right" id="summary_h">h</td>
+                </tr>
+                <tr class="table_row">
+                    <td class="company_table_left">Low Price</td>
+                    <td class="company_table_right" id="summary_l">l</td>
+                </tr>
+                <tr class="table_row">
+                    <td class="company_table_left">Change</td>
+                    <td class="company_table_right">
+                        <span id="summary_d" style="vertical-align:middle">Change</span>
+                        <img id="summary_d_arrow"
+                             style="vertical-align: middle; width: 18px; height: 18px" src=""
+                             alt="arrow"/>
+                    </td>
+                </tr>
+                <tr class="table_row">
+                    <td class="company_table_left">Change Percent</td>
+                    <td class="company_table_right">
+                        <span id="summary_dp" style="vertical-align: middle">Change Percent</span>
+                        <img id="summary_dp_arrow"
+                             style="vertical-align: middle; width: 18px; height: 18px" src=""
+                             alt="arrow"/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="recommendation">
+                <div class="recommendation_word" style="color: rgb(230, 14, 43)">Strong Sell</div>
+                <div class="recommendation_box" id="strong_sell" style="background-color: rgb(230, 14, 43)"></div>
+                <div class="recommendation_box" id="sell" style="background-color: rgb(160, 75, 58)"></div>
+                <div class="recommendation_box" id="hold" style="background-color: rgb(101, 131, 74)"></div>
+                <div class="recommendation_box" id="buy" style="background-color: rgb(53, 195, 89)"></div>
+                <div class="recommendation_box" id="strong_buy" style="background-color: rgb(35, 255, 108)"></div>
+                <div class="recommendation_word" style="color: rgb(35, 255, 108)">Strong<br/>Buy</div>
+            </div>
+            <div style="margin-top: 20px; text-align: center; font-size: 18px">Recommendation Trends</div>
+        </div>
+        <div class="item">
+            <div id="charts"></div>
+        </div>
+        <div class="item">
+            <div class="news_box">
+                <div>
+                    <img class="news_img" src="" alt="News Image">
+                </div>
+                <div class="news_content">
+                    <p class="news_headline"></p>
+                    <p class="news_date"></p>
+                    <a class="news_link" href="" target="_blank">See Original Post</a>
+                </div>
+            </div>
+            <div class="news_box">
+                <div>
+                    <img class="news_img" src="" alt="News Image">
+                </div>
+                <div class="news_content">
+                    <p class="news_headline"></p>
+                    <p class="news_date"></p>
+                    <a class="news_link" href="" target="_blank">See Original Post</a>
+                </div>
+            </div>
+            <div class="news_box">
+                <div>
+                    <img class="news_img" src="" alt="News Image">
+                </div>
+                <div class="news_content">
+                    <p class="news_headline"></p>
+                    <p class="news_date"></p>
+                    <a class="news_link" href="" target="_blank">See Original Post</a>
+                </div>
+            </div>
+            <div class="news_box">
+                <div>
+                    <img class="news_img" src="" alt="News Image">
+                </div>
+                <div class="news_content">
+                    <p class="news_headline"></p>
+                    <p class="news_date"></p>
+                    <a class="news_link" href="" target="_blank">See Original Post</a>
+                </div>
+            </div>
+            <div class="news_box">
+                <div>
+                    <img class="news_img" src="" alt="News Image">
+                </div>
+                <div class="news_content">
+                    <p class="news_headline"></p>
+                    <p class="news_date"></p>
+                    <a class="news_link" href="" target="_blank">See Original Post</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="static/myScript.js"></script>
+</div>
+</body>
+</html>

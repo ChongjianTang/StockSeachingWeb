@@ -1,0 +1,33 @@
+<ng-template #content let-modal>
+    <div class="container-fluid">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+            <button type="button" class="btn-close" aria-label="Close"
+                    (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="mb-3">
+                    <div>Current Price: {{result.latestPrice.c.toFixed(2)}}</div>
+                    <div>Money in Wallet: ${{getWallet()}}</div>
+                    <div class="row">
+                        <div class="col-md-2 col-12">Quantity</div>
+                        <div class="col-md-1">
+                            <input type="number" step="1" [(ngModel)]="quantity" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div *ngIf="notEnoughStocks()" style="color: red">You cannot sell the stocks that you don't have!</div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <div>
+                Total: {{(quantity * result.latestPrice.c).toFixed(2)}}
+            </div>
+            <button *ngIf="canSell()" type="button" class="btn btn-success" (click)="update()">Sell</button>
+            <button *ngIf="!canSell()" type="button" class="btn btn-success" disabled (click)="update()">Sell</button>
+        </div>
+    </div>
+</ng-template>
+
+<button type="button" class="btn btn-danger" (click)="open(content)">Sell</button>

@@ -1,0 +1,51 @@
+<div class="container-fluid">
+    <div class="row">
+        <h1 style="margin-top: 30px; margin-bottom: 30px; text-align: center;" class="col-md-12 col-12">STOCK SEARCH
+        </h1>
+    </div>
+
+    <div class="row justify-content-center" style="margin-bottom: 50px">
+        <form class="example-form col-8 col-md-4" (ngSubmit)="onSubmit()">
+            <div class="input-group">
+                <input type="text" class="form-control" aria-label="Dollar amount (with dot and two decimal places)"
+                       placeholder="Enter stock ticker symbol" [formControl]="control" [matAutocomplete]="auto">
+
+                <button type="submit">
+                    <i class="bi bi-search"></i>
+                </button>
+                <button type="button" class="input-group-text" (click)="clear()">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+            <mat-autocomplete #auto="matAutocomplete">
+                <mat-option class="loading" *ngIf="isLoading">
+                    <mat-spinner diameter="35"></mat-spinner>
+                </mat-option>
+                <ng-container *ngIf="!isLoading">
+                    <mat-option *ngFor="let item of filteredStreets" (onSelectionChange)="onSubmit()"
+                                [value]="item.symbol">
+                        <span>{{item.symbol}}</span> <span style="font-size: small"> | {{item.description}} </span>
+                    </mat-option>
+                </ng-container>
+            </mat-autocomplete>
+        </form>
+    </div>
+
+    <div *ngIf="noInputNotice" class="alert alert-danger alert-dismissible text-center" role="alert">
+        Please enter a valid ticker
+        <button type="button" class="btn-close" aria-label="Close" (click)="hideNoInputNotice()"></button>
+    </div>
+    <div *ngIf="noDataNotice" class="alert alert-danger alert-dismissible text-center" role="alert">
+        No data found. Please enter a valid Ticker
+        <button type="button" class="btn-close" aria-label="Close" (click)="hideNoDataNotice()"></button>
+    </div>
+
+    <!--    <div *ngIf="showContainer" class="info">-->
+    <!--        <div>-->
+    <!--            <app-search-result [ticker]="ticker" [description]="description" [latestPrice]="latestPrice">-->
+    <!--            </app-search-result>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <router-outlet></router-outlet>
+</div>
+

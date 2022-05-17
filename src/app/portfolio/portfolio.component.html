@@ -1,0 +1,92 @@
+<div class="container justify-content-center" style="width: 100%;">
+    <div class="col-md-12">
+        <div *ngIf="buyNotice" class="alert alert-success alert-dismissible text-center" role="alert">
+            {{ticker}} bought successfully.
+            <button type="button" class="btn-close" aria-label="Close" (click)="hideBuyNotice()"></button>
+        </div>
+        <div *ngIf="sellNotice" class="alert alert-danger alert-dismissible text-center" role="alert">
+            {{ticker}} sold successfully.
+            <button type="button" class="btn-close" aria-label="Close" (click)="hideSellNotice()"></button>
+        </div>
+
+        <h1 style="margin-top: 40px;">My Portfolio</h1>
+
+        <h3>Money in Wallet ${{myMoney.toFixed(2)}}</h3>
+
+        <div *ngIf="!showPortfolio" class="alert alert-warning text-center" role="alert">
+            Currently you don't have any stock.
+        </div>
+
+
+        <div *ngIf="checkData()">
+            <div *ngFor="let stock of myStockInfo let i = index" class="contain">
+                <div class="header">
+                    <strong class="fs-4">{{stock.ticker}}</strong>
+                    <span class="fs-5" style="margin-left: 10px;">{{stock.name}}</span>
+                </div>
+                <div class="row fs-5">
+
+                    <div class="col-md-6 row">
+                        <div class="col-md-6 col-6">
+                            Quantity:
+                        </div>
+                        <div class="col-md-6 col-6 text-end">
+                            {{stock.quantity.toFixed(2)}}
+                        </div>
+                        <br />
+                        <div class="col-md-6 col-6" style="white-space: nowrap;">
+                            Avg. Cost/Share:
+                        </div>
+                        <div class="col-md-6 col-6 text-end">
+                            {{(stock.totalCost / stock.quantity).toFixed(2)}}
+                        </div>
+                        <br />
+                        <div class="col-md-6 col-6">
+                            Total Cost:
+                        </div>
+                        <div class="col-md-6 col-6 text-end">
+                            {{stock.totalCost.toFixed(2)}}
+                        </div>
+                    </div>
+                    <div class="col-md-6 row">
+                        <div class="col-md-6 col-6">
+                            Change:
+                        </div>
+                        <div class="col-md-6 col-6 text-end" [class.up-color]="stock.currentPrice-stock.avg>=0.01"
+                            [class.down-color]="stock.currentPrice-stock.avg<=-0.01">
+                            <i *ngIf="stock.currentPrice-stock.avg>=0.01" class="bi bi-caret-up-fill"></i>
+                            <i *ngIf="stock.currentPrice-stock.avg<=-0.01" class="bi bi-caret-down-fill"></i>
+                            {{(stock.currentPrice - stock.avg).toFixed(2)}}
+                        </div>
+                        <br />
+                        <div class="col-md-6 col-6">
+                            Current Price:
+                        </div>
+                        <div class="col-md-6 col-6 text-end" [class.up-color]="stock.currentPrice-stock.avg>=0.01"
+                            [class.down-color]="stock.currentPrice-stock.avg<=-0.01">
+                            {{stock.currentPrice.toFixed(2)}}
+                        </div>
+                        <br />
+                        <div class="col-md-6 col-6">
+                            Market Value:
+                        </div>
+                        <div class="col-md-6 col-6 text-end" [class.up-color]="stock.currentPrice-stock.avg>=0.01"
+                            [class.down-color]="stock.currentPrice-stock.avg<=-0.01">
+                            {{stock.currentPrice * stock.quantity.toFixed(2)}}
+                        </div>
+                    </div>
+
+                </div>
+                <div class="btn-container">
+                    <app-buy-dialog [result]="this" [ticker]="stock.ticker" [currentPrice]="stock.currentPrice"
+                        [name]="stock.name" [isBuyDialog]="true">
+                    </app-buy-dialog>
+                    <app-buy-dialog [result]="this" [ticker]="stock.ticker" [currentPrice]="stock.currentPrice"
+                        [name]="stock.name" [isBuyDialog]="false">
+                    </app-buy-dialog>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

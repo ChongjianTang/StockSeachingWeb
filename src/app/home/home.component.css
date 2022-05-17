@@ -1,0 +1,48 @@
+* {
+    font-size: 1rem;
+}
+h1.col-12 {
+    font-size: 2rem;
+}
+
+.input-group > input {
+    border-right: none;
+}
+.input-group {
+    border-right: 1px solid #ccc;
+    border-radius: 5px;
+}
+.input-group > button {
+    background-color: transparent;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid rgb(206, 212, 218);
+    border-top: 1px solid rgb(206, 212, 218);
+}
+
+.input-group-text {
+    background-color: white;
+    border-left: none;
+}
+
+
+.example-full-width {
+    width: 100%;
+}
+
+.footer-comp {
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    background-color: #e3e3e3;
+    bottom: 0px;
+    position: absolute;
+  }
+  .footer-comp a {
+    text-decoration: none;
+  }
+  
+  .footer-comp span {
+      font-weight: 600;
+  }
+

@@ -1,0 +1,51 @@
+.logo > img {
+    width: 4rem;
+    height: 4rem;
+}
+
+.hide {
+    display: none;
+}
+
+.up-color {
+    color: green;
+}
+
+.down-color {
+    color: red;
+}
+
+.price-info {
+    white-space: nowrap;
+}
+
+.summary-container {
+    width: 100%;
+}
+
+.news-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.news-box {
+    display: flex;
+    width: 50%;
+    height: 100px;
+}
+
+.table > :not(:first-child) {
+    border-top: 1px solid #ccc;
+
+}
+
+h1 {
+    display: inline-block;
+    vertical-align: text-top;
+    margin: 0;
+}
+
+h2 {
+    margin: 0;
+}

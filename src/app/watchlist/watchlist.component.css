@@ -1,0 +1,17 @@
+.up-color {
+    color: green;
+}
+.down-color {
+    color: red;
+}
+.mat-card {
+    margin: 20px 0 !important;
+    border: 1px solid #ccc;
+    box-shadow: none;
+}
+.company-prices {
+    text-align: end;
+}
+.close-container {
+    height: 15px;
+}

@@ -1,0 +1,47 @@
+<ng-template #content let-modal>
+    <div class="container-fluid">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">{{this.ticker}}</h4>
+            <button type="button" class="btn-close" aria-label="Close"
+                    (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="mb-3">
+                    <div>Current Price: {{currentPrice.toFixed(2)}}</div>
+                    <div>Money in Wallet: ${{myMoney.toFixed(2)}}</div>
+                    <div class="row">
+                        <div class="col-md-2 col-12">Quantity</div>
+                        <div class="col-md-1">
+                            <input type="number" step="1" [(ngModel)]="quantity" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div *ngIf="isBuyDialog&&notEnoughMoney()" style="color: red">Not enough money in wallet!</div>
+                    <div *ngIf="!isBuyDialog&&notEnoughStocks()" style="color: red">You cannot sell the stocks that you
+                        don't have!
+                    </div>
+
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <div>
+                Total: {{(quantity * currentPrice).toFixed(2)}}
+            </div>
+            <button *ngIf="isBuyDialog&&canBuy()" type="button" class="btn btn-success" (click)="buyUpdate()">Buy
+            </button>
+            <button *ngIf="isBuyDialog&&!canBuy()" type="button" class="btn btn-success" disabled>
+                Buy
+            </button>
+            <button *ngIf="!isBuyDialog&&canSell()" type="button" class="btn btn-success" (click)="sellUpdate()">Sell
+            </button>
+            <button *ngIf="!isBuyDialog&&!canSell()" type="button" class="btn btn-success" disabled>Sell
+            </button>
+        </div>
+    </div>
+</ng-template>
+
+
+<button *ngIf="isBuyDialog" type="button" class="btn btn-success" (click)="open(content)">Buy</button>
+<button *ngIf="!isBuyDialog" type="button" class="btn btn-danger" (click)="open(content)">Sell</button>
+

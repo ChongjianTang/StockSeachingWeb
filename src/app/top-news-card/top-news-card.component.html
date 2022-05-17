@@ -1,0 +1,41 @@
+<ng-template #content let-modal>
+    <div class="container-fluid">
+        <div class="modal-header">
+            <span class="modal-title" id="modal-basic-title">
+                <h2>{{info.source}}</h2>
+                <span style="color: grey">{{timestampToTime(info.datetime)}}</span>
+            </span>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <h5>{{info.headline}}</h5>
+            {{info.summary}}
+            <br>
+            <span style="color:grey"> For more detail click <a target="_blank" href={{info.url}}>here</a></span>
+        </div>
+    </div>
+
+
+    <div class="footer">
+        <div>Share</div>
+        <span class="twitter">
+            <a target="_blank" href="https://twitter.com/intent/tweet?text={{info.headline}}%0a&url={{info.url}}">
+                <i class="fa fa-2x fa-twitter"></i>
+            </a>
+        </span>
+        <span>
+            <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{info.url}}&amp;src=sdkpreparse">
+                <i class="fa fa-2x fa-facebook-official"></i>
+            </a>
+        </span>
+    </div>
+
+
+</ng-template>
+
+<div class="row" style="border: 1px solid #ccc; margin: 5px 5px" (click)="open(content)">
+    <div class="">
+        <img style="width:12rem; height: 10rem; padding: 1rem" [src]="info.image" align="left" alt="" srcset="">
+        {{info.headline}}
+    </div>
+</div>

@@ -1,0 +1,29 @@
+.up-color {
+    color: green;
+}
+
+.down-color {
+    color: red;
+}
+
+.contain {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 0;
+    margin: 20px 0;
+}
+
+.contain > div {
+    padding: 10px;
+}
+
+.header {
+    border-bottom: 1px solid #ccc;
+    background-color: #f3f3f3;
+}
+
+.btn-container {
+    text-align: end;
+    border-top: 1px solid #ccc;
+    background-color: #f3f3f3;
+}

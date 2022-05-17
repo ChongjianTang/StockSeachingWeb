@@ -1,0 +1,32 @@
+* {
+    font-size: 1rem;
+}
+h1.col-12 {
+    font-size: 2rem;
+}
+
+
+.input-group > input {
+    border-right: none;
+}
+
+.input-group > button {
+    background-color: transparent;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid rgb(206, 212, 218);
+    border-top: 1px solid rgb(206, 212, 218);
+}
+
+.input-group-text {
+    background-color: white;
+    border-left: none;
+}
+
+
+.example-full-width {
+    width: 100%;
+}
+
+
+

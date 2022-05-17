@@ -1,0 +1,174 @@
+<div *ngIf="isLoading">
+    <mat-spinner style="  margin-left: auto; margin-right: auto;" diameter="100"></mat-spinner>
+</div>
+
+<div *ngIf="checkData()" class="container-fluid">
+    <div *ngIf="buyNotice" class="alert alert-success alert-dismissible text-center" role="alert">
+        {{ticker}} bought successfully.
+        <button type="button" class="btn-close" aria-label="Close" (click)="hideBuyNotice()"></button>
+    </div>
+    <div *ngIf="sellNotice" class="alert alert-danger alert-dismissible text-center" role="alert">
+        {{ticker}} sold successfully.
+        <button type="button" class="btn-close" aria-label="Close" (click)="hideSellNotice()"></button>
+    </div>
+
+    <div *ngIf="addNotice" class="alert alert-success alert-dismissible text-center" role="alert">
+        {{ticker}} added to Watchlist.
+        <button type="button" class="btn-close" aria-label="Close" (click)="hideAddNotice()"></button>
+    </div>
+    <div *ngIf="removeNotice" class="alert alert-danger alert-dismissible text-center" role="alert">
+        {{ticker}} removed from Watchlist.
+        <button type="button" class="btn-close" aria-label="Close" (click)="hideRemoveNotice()"></button>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-3 col-4">
+            <h1>{{description.ticker}}</h1>
+            <button mat-icon-button disableRipple="true" *ngIf="!existed" (click)="addToWatchlist()">
+                <i class="bi bi-star"></i>
+            </button>
+            <button mat-icon-button disableRipple="true" style="color: gold" *ngIf="existed"
+                    (click)="removeFromWatchlist()">
+                <i class="bi bi-star-fill"></i>
+            </button>
+            <h3 style="color: grey">{{description.name}}</h3>
+            <div>{{description.exchange}}</div>
+            <!-- Modal -->
+            <app-buy-dialog [result]="this" [ticker]="this.ticker" [currentPrice]="this.latestPrice.c"
+                            [name]="this.description.name" [isBuyDialog]="true"></app-buy-dialog>
+            <app-buy-dialog *ngIf="checkMyStock()" [result]="this" [ticker]="this.ticker"
+                            [currentPrice]="this.latestPrice.c" [name]="this.description.name" [isBuyDialog]="false">
+            </app-buy-dialog>
+
+        </div>
+        <div class="col-md-3 col-2 d-flex justify-content-center logo">
+            <img [src]='description.logo' alt="" srcset="">
+        </div>
+        <div class="col-md-3 col-5 price-info" style="text-align: end;">
+            <h1 [class.up-color]="latestPrice.d > 0" [class.down-color]="latestPrice.d < 0">
+                {{latestPrice.c}}
+            </h1>
+            <h3 [class.up-color]="latestPrice.d > 0" [class.down-color]="latestPrice.d < 0">
+                <i *ngIf="latestPrice.d > 0" class="bi bi-caret-up-fill"></i>
+                <i *ngIf="latestPrice.d < 0" class="bi bi-caret-down-fill"></i>
+                <span>{{latestPrice.d.toFixed(2)}}({{latestPrice.dp.toFixed(2)}}%)</span>
+            </h3>
+            <div>
+                {{timestampToTime(currentTime)}}
+            </div>
+        </div>
+
+        <div style="text-align: center">
+            <p *ngIf="isOpen" style="color: green">Market is open</p>
+            <p *ngIf="!isOpen" style="color: red">Market Closed on {{timestampToTime(latestPrice.t)}}</p>
+        </div>
+
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-9">
+            <mat-tab-group mat-align-tabs="center" mat-stretch-tabs>
+                <mat-tab label="Summary">
+                    <div class="summary-container row">
+                        <div class="col-md-6 col-12">
+                            <div class="price">
+                                <div
+                                        class="offset-md-2 d-sm-inline-flex flex-sm-column justify-content-sm-center align-items-sm-center">
+                                    <div class="">High
+                                        Price: {{latestPrice.h}}</div>
+                                    <div>Low Price: {{latestPrice.l}}</div>
+                                    <div>Open Price: {{latestPrice.o}}</div>
+                                    <div>Prev.Close: {{latestPrice.pc}}</div>
+                                </div>
+                            </div>
+                            <div class="row"><a class="offset-md-3" [href]="description.weburl">About
+                                the company</a>
+                            </div>
+                            <div class="row">
+                                <div class="offset-md-1">
+                                    <div class="about-company">
+                                        <div>IPO Start
+                                            Date: {{description.ipo}}</div>
+                                        <div>
+                                            Industry: {{description.finnhubIndustry}}</div>
+                                        <div>Webpage: <span style="color: #0d6efd;">{{description.weburl}}</span>
+                                        </div>
+                                        <div>Company peers:</div>
+                                        <span *ngFor="let peer of companyPeers">
+                                            <a routerLink="/search/{{peer}}" class="text-wrap"
+                                               style="color: #0d6efd;">{{peer}}</a>
+                                            <span>, </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-12">
+                            <highcharts-chart [Highcharts]="highcharts" [constructorType]="'stockChart'"
+                                              [options]="summaryChartOptions"
+                                              style="width: 100%; height: 100%; display: block;">
+                            </highcharts-chart>
+                        </div>
+                    </div>
+                </mat-tab>
+                <mat-tab label="Top News">
+                    <div class="news-container row">
+                        <app-top-news-card [info]="info" class="col-md-6" *ngFor="let info of newsInfo">
+                        </app-top-news-card>
+                    </div>
+                </mat-tab>
+                <mat-tab label="Charts">
+                    <div class="row">
+                        <ng-template matTabContent #charts style="width: 100%;">
+                            <highcharts-chart [Highcharts]="highcharts" [constructorType]="'stockChart'"
+                                              [options]="chartOptions"
+                                              style="width: 100%; height: 500px; display: block; padding-left: 1%; padding-right: 1%;">
+                            </highcharts-chart>
+                        </ng-template>
+                    </div>
+                </mat-tab>
+                <mat-tab label="Insights">
+                    <div class="row justify-content-center" style="width: 100%;">
+                        <div class="col-md-6">
+                            <table class="table caption-top align-middle">
+                                <caption class="text-center">Social Sentiments</caption>
+                                <tbody>
+                                <tr>
+                                    <td class="text-center" style="background-color: lightgrey;">{{description.name}}
+                                    </td>
+                                    <td class="text-center" style="background-color: lightgrey;">Reddit</td>
+                                    <td class="text-center" style="background-color: lightgrey;">Twitter</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center" style="background-color: lightgrey;">Total Mentions</td>
+                                    <td class="text-center">{{sentimentInfo.reddit[0].mention}}</td>
+                                    <td class="text-center">{{sentimentInfo.twitter[0].mention}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center" style="background-color: lightgrey;">Positive Mentions</td>
+                                    <td class="text-center">{{sentimentInfo.reddit[0].positiveMention}}</td>
+                                    <td class="text-center">{{sentimentInfo.twitter[0].positiveMention}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center" style="background-color: lightgrey;">Negative Mentions</td>
+                                    <td class="text-center">{{sentimentInfo.reddit[0].negativeMention}}</td>
+                                    <td class="text-center">{{sentimentInfo.twitter[0].negativeMention}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row" style="width: 100%;">
+                        <div class="col-md-6 col-12">
+                            <div [chart]="chartTrends"></div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div [chart]="chartEarnings"></div>
+                        </div>
+                    </div>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+    </div>
+</div>

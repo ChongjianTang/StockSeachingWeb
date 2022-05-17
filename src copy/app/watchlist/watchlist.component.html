@@ -1,0 +1,60 @@
+<h1>My Watchlist</h1>
+
+<div *ngIf="!showWatchlist" class="alert alert-warning" role="alert">
+    Currently you don't have any stock in your watchlist.
+</div>
+<div *ngIf="checkData()">
+    <div *ngFor="let latestPrice of latestPriceArray let i = index">
+        <div [routerLink]="['/search',watchlist[i].ticker]" class="card" style="margin: 20px auto; width: 50%;">
+            <div class="card-body">
+                <button type="button" class="btn-close" aria-label="Close" style="float: right"
+                        (click)="removeFromWatchlist(i)">
+                </button>
+                <div class="container-lg">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="company-description">
+                                <h2>{{watchlist[i].ticker}}</h2>
+                                <p>{{watchlist[i].name}}</p>
+                            </div>
+                        </div>
+                        <div class="col-6" style="text-align: right">
+                            <div class="company-prices">
+                                <h2 [class.up-color]="latestPrice.d > 0"
+                                    [class.down-color]="latestPrice.d < 0">
+                                    {{latestPrice.c}}
+                                </h2>
+                                <div [class.up-color]="latestPrice.d > 0"
+                                     [class.down-color]="latestPrice.d < 0">
+                                    <i *ngIf="latestPrice.d > 0" class="bi bi-caret-up-fill"></i>
+                                    <i *ngIf="latestPrice.d < 0" class="bi bi-caret-down-fill"></i>
+                                    <span>{{latestPrice.d}}({{latestPrice.dp.toFixed(2)}}%)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!--        <button type="button" class="btn-close" aria-label="Close"-->
+        <!--                (click)="removeFromWatchlist(i)">-->
+        <!--        </button>-->
+        <!--        <span>-->
+        <!--            <strong>{{watchlist[i].ticker}}</strong>-->
+        <!--            <br/>-->
+        <!--            <span>{{watchlist[i].name}}</span>-->
+        <!--        </span>-->
+        <!--        <div [class.up-color]="latestPrice.d > 0"-->
+        <!--             [class.down-color]="latestPrice.d < 0">-->
+        <!--            {{latestPrice.c}}-->
+        <!--        </div>-->
+        <!--        <div [class.up-color]="latestPrice.d > 0"-->
+        <!--             [class.down-color]="latestPrice.d < 0">-->
+        <!--            <i *ngIf="latestPrice.d > 0" class="bi bi-caret-up-fill"></i>-->
+        <!--            <i *ngIf="latestPrice.d < 0" class="bi bi-caret-down-fill"></i>-->
+        <!--            <span>{{latestPrice.d}}({{latestPrice.dp.toFixed(2)}}%)</span>-->
+        <!--        </div>-->
+    </div>
+</div>

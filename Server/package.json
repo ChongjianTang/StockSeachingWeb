@@ -1,0 +1,19 @@
+{
+  "name": "Server",
+  "version": "1.0.0",
+  "description": "This is the sample application for the [Quickstart for Node.js in the App Engine standard environment][tutorial] tutorial found in the [Google App Engine Node.js standard environment][appengine] documentation.",
+  "main": "app.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.26.1",
+    "express": "^4.17.3"
+  }
+}

@@ -1,0 +1,30 @@
+<mat-toolbar style="background-color:blue; position: sticky">
+    <span style="color: white">Stock Search</span>
+    <span class="example-spacer"></span>
+
+    <button mat-button [matMenuTriggerFor]="menu" color="primary">
+        <i class="bi bi-list"></i>
+    </button>
+    <mat-menu #menu="matMenu">
+        <a routerLink="" class="nav">
+            <span>Search</span>
+        </a>
+        <a routerLink="/watchlist" class="nav">
+            <span>Watchlist</span>
+        </a>
+        <a routerLink="/portfolio" class="nav">
+            <span>Portfolio</span>
+        </a>
+    </mat-menu>
+    <a [class.selected]="searchSelected()" [routerLink]="getRouteLink()" class="nav">
+        <span>Search</span>
+    </a>
+    <a [class.selected]="watchlistSelected()" routerLink="/watchlist" class="nav">
+        <span>Watchlist</span>
+    </a>
+    <a [class.selected]="portfolioSelected()" routerLink="/portfolio" class="nav">
+        <span>Portfolio</span>
+    </a>
+</mat-toolbar>
+
+<router-outlet></router-outlet>

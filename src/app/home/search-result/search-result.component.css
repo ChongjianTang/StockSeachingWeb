@@ -1,0 +1,82 @@
+* {
+    font-size: 1rem;
+}
+.logo>img {
+    width: 4rem;
+    height: 4rem;
+}
+
+.hide {
+    display: none;
+}
+
+.up-color {
+    color: green;
+}
+
+.down-color {
+    color: red;
+}
+
+.price-info {
+    white-space: nowrap;
+}
+
+.summary-container {
+    width: 100%;
+}
+
+.news-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.news-box {
+    display: flex;
+    width: 50%;
+    height: 100px;
+}
+
+.table> :not(:first-child) {
+    border-top: 1px solid #ccc;
+
+}
+
+h1 {
+    display: inline-block;
+    vertical-align: text-top;
+    margin: 0;
+}
+
+h2 {
+    margin: 0;
+}
+
+.mat-icon-button {
+    font-size: 1.5rem;
+}
+
+.icon-logo {
+    display: flex;
+}
+.icon-logo > h1 {
+    line-height: 50px;
+}
+.icon-logo button {
+    border: none;
+    background-color: transparent;
+}
+.price,
+.price+div {
+    margin: 20px 0;
+}
+
+@media (max-width: 576px) {
+    .text-center-sm {
+        text-align: center;
+    }
+    .line-height-sm {
+        line-height: 40px;
+    };
+}
